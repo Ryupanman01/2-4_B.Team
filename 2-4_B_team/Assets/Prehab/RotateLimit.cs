@@ -13,8 +13,17 @@ public class RotateLimit : MonoBehaviour
     private float MaxAngle;
 
     [SerializeField]
+    [Tooltip("回転するスピード")]       //test2
+    private float step;
+    
+    [SerializeField]
+    [Tooltip("スピード")]       //test2
+    private float speed;
+
+    [SerializeField]
     [Tooltip("回転するスピード")]
-    private float rotationSpeed = 1;
+    private float MinSpeed = 0.3f;
+
 
     // Update is called once per frame
     void Update()
@@ -26,6 +35,7 @@ public class RotateLimit : MonoBehaviour
         // 現在のGameObjectのY軸方向の角度を取得
         float floorZAngle = transform.eulerAngles.z;
         float floorXAngle = transform.eulerAngles.x;
+
 
         // 現在の角度が180より大きい場合
         if (floorZAngle > 180)
@@ -43,7 +53,7 @@ public class RotateLimit : MonoBehaviour
         //if ((floorZAngle >= MinAngle && -horizontal < 0) || (floorZAngle <= MaxAngle && -horizontal > 0))
         //{
         //    // Y軸を基準に回転させる
-        //    transform.Rotate(new Vector3(0, 0, -horizontal * rotationSpeed));
+        //    transform.Rotate(new Vector3(0, 0, -horizontal * MinSpeed));
         //}
         //else
         //{
@@ -53,11 +63,11 @@ public class RotateLimit : MonoBehaviour
         //    }
         //}
 
-        //// (現在の角度が最小角度以上かつキー入力が0未満(左キー押下)) または (現在の角度が最大角度以下かつキー入力が0より大きい(右キー押下))の時
+        // (現在の角度が最小角度以上かつキー入力が0未満(左キー押下)) または (現在の角度が最大角度以下かつキー入力が0より大きい(右キー押下))の時
         //if ((floorXAngle >= MinAngle && vertical < 0) || (floorXAngle <= MaxAngle && vertical > 0))
         //{
         //    // Y軸を基準に回転させる
-        //    transform.Rotate(new Vector3(vertical * rotationSpeed, 0, 0));
+        //    transform.Rotate(new Vector3(vertical * MinSpeed, 0, 0));
         //}
         //else
         //{
@@ -67,121 +77,211 @@ public class RotateLimit : MonoBehaviour
         //    }
         //}
 
-        //if (Input.GetKey("up"))
+
+        //test1
+        //if (Input.GetAxisRaw("Vertical") > 0)
+        //{
+        //    MinSpeed += 0.001f;
+        //    if (floorXAngle < 30f)
+        //    {
+        //        transform.Rotate(MinSpeed, 0f, 0f);
+        //    }
+        //}
+        //else if (Input.GetAxisRaw("Vertical") < 0)
+        //{
+        //    if (floorXAngle > -30f)
+        //    {
+        //        transform.Rotate(++floorXAngle * 1f, 0f, 0f);
+        //    }
+        //}
+        //else
+        //{
+        //    MinSpeed = 0.1f;
+        //    if (floorXAngle > 0 || floorXAngle < 0)
+        //    {
+        //        transform.Rotate(floorXAngle / -18f, 0f, 0f);
+        //    }
+        //}
+
+        //if (Input.GetAxisRaw("Horizontal") < 0)
+        //{
+
+        //    if (floorZAngle < 30f)
+        //    {
+        //        transform.Rotate(0f, 0f, 1f * MinSpeed);
+        //    }
+        //}
+        //else if (Input.GetAxisRaw("Horizontal") > 0)
+        //{
+        //    if (floorZAngle > -30f)
+        //    {
+        //        transform.Rotate(0f, 0f, -1f * MinSpeed);
+        //    }
+        //}
+        //else
+        //{
+        //    if (floorZAngle > 0 || floorZAngle < 0)
+        //    {
+        //        transform.Rotate(0f, 0f, floorZAngle / -8f);
+        //    }
+        //}
+
+
+
+        /********************************************/
+        //test2
+        float speed = 0.6f;
+        //float step;
+
+        step = speed * Time.deltaTime;
+
+        if (Input.GetAxisRaw("Vertical") > 0)
+        {
+            speed += 1.0f;
+            if (floorXAngle < 30f)
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(40f, 0, 0), step);
+            }
+        }
+        else if (Input.GetAxisRaw("Vertical") < 0)
+        {
+            if (floorXAngle > -30f)
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(-40f, 0, 0), step);
+            }
+        }
+        else
+        {
+            if (floorXAngle > 0 || floorXAngle < 0)
+            {
+                speed = 0.6f;
+                transform.Rotate(floorXAngle / -10f, 0f, 0f);
+            }
+        }
+
+        if (Input.GetAxisRaw("Horizontal") < 0)
+        {
+
+            speed += 1.0f;
+            if (floorZAngle < 30f)
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, 40f), step);
+            }
+        }
+        else if (Input.GetAxisRaw("Horizontal") > 0)
+        {
+            if (floorZAngle > -30f)
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, -40f), step);
+            }
+        }
+        else
+        {
+            if (floorZAngle > 0 || floorZAngle < 0)
+            {
+                speed = 0.6f;
+                transform.Rotate(0f, 0f, floorZAngle / -10f);
+            }
+        }
+
+        /**************************************/
+
+        ///*****************************************/
+        //if (Input.GetAxisRaw("Vertical") > 0)
         //{
         //    if (floorXAngle < 30f)
         //    {
-        //        transform.Rotate(1f, 0f, 0f);
+        //        MinSpeed += 0.001f;
+        //        transform.Rotate(MinSpeed, 0f, 0f);
         //    }
         //}
-        //else if (!Input.anyKey)
+        //else if (Input.GetAxisRaw("Vertical") < 0)
         //{
-        //    if (transform.eulerAngles.x > 0)
+        //    if (floorXAngle > -30f)
+        //    {
+        //        transform.Rotate(-1f * MinSpeed, 0f, 0f);
+        //    }
+        //}
+        //else
+        //{
+        //    if (floorXAngle > 0 || floorXAngle < 0)
+        //    {
+        //        MinSpeed = 0.01f;
+        //        transform.Rotate(floorXAngle / -8f, 0f, 0f);
+        //    }
+        //}
+
+        //if (Input.GetAxisRaw("Horizontal") < 0)
+        //{
+
+        //    if (floorZAngle < 30f)
+        //    {
+        //        transform.Rotate(0f, 0f, 1f * MinSpeed);
+        //    }
+        //}
+        //else if (Input.GetAxisRaw("Horizontal") > 0)
+        //{
+        //    if (floorZAngle > -30f)
+        //    {
+        //        transform.Rotate(0f, 0f, -1f * MinSpeed);
+        //    }
+        //}
+        //else
+        //{
+        //    if (floorZAngle > 0 || floorZAngle < 0)
+        //    {
+        //        transform.Rotate(0f, 0f, floorZAngle / -8f);
+        //    }
+        //}
+        /*****************************************/
+
+        //if (Input.GetAxisRaw("Vertical") > 0)
+        //{
+
+        //    if (floorXAngle < 30f)
+        //    {
+        //        transform.Rotate(1f * MinSpeed, 0f, 0f);
+        //    }
+        //}
+        //else if (Input.GetAxisRaw("Vertical") < 0)
+        //{
+        //    if (floorXAngle > -30f)
+        //    {
+        //        transform.Rotate(-1f * MinSpeed, 0f, 0f);
+        //    }
+        //}
+        //else
+        //{
+        //    if (floorXAngle > 0 || floorXAngle < 0)
         //    {
         //        transform.Rotate(floorXAngle / -8f, 0f, 0f);
         //    }
         //}
-        //if (Input.GetKey("down"))
-        //{
-        //    if (floorXAngle > -30f)
-        //    {
-        //        transform.Rotate(-1f, 0f, 0f);
-        //    }
-        //}
-        //else if (!Input.anyKey)
-        //{
-        //    if (transform.eulerAngles.x > 0)
-        //    {
-        //        transform.Rotate(-floorXAngle / 8f, 0f, 0f);
-        //    }
-        //}
 
-        //if (Input.GetKey("left"))
+        //if (Input.GetAxisRaw("Horizontal") < 0)
         //{
+
         //    if (floorZAngle < 30f)
         //    {
-        //        transform.Rotate(0f, 0f, 1f);
+        //        transform.Rotate(0f, 0f, 1f * MinSpeed);
         //    }
         //}
-        //else if (!Input.anyKey)
-        //{
-        //    if (transform.eulerAngles.z > 0)
-        //    {
-        //        transform.Rotate(0, 0f, floorZAngle / -8f);
-        //    }
-        //}
-        //if (Input.GetKey("right"))
+        //else if (Input.GetAxisRaw("Horizontal") > 0)
         //{
         //    if (floorZAngle > -30f)
         //    {
-        //        transform.Rotate(0f, 0f, -1f);
+        //        transform.Rotate(0f, 0f, -1f * MinSpeed);
         //    }
         //}
-        //else if (!Input.anyKey)
+        //else
         //{
-        //    if (transform.eulerAngles.z > 0)
+        //    if (floorZAngle > 0 || floorZAngle < 0)
         //    {
-        //        transform.Rotate(0f, 0f, -floorZAngle / 8f);
+        //        transform.Rotate(0f, 0f, floorZAngle / -8f);
         //    }
         //}
 
-        //スティック
-        if (Input.GetAxisRaw("Horizontal") < 0)
-        {
-            if (floorXAngle < 30f)
-            {
-                transform.Rotate(1f, 0f, 0f);
-            }
-        }
-        //else if (!Input.GetAxis("Horizontal"))
-        //{
-        //    if (transform.eulerAngles.x > 0)
-        //    {
-        //        transform.Rotate(floorXAngle / -8f, 0f, 0f);
-        //    }
-        //}
-        //if (Input.GetKey("down"))
-        //{
-        //    if (floorXAngle > -30f)
-        //    {
-        //        transform.Rotate(-1f, 0f, 0f);
-        //    }
-        //}
-        //else if (!Input.anyKey)
-        //{
-        //    if (transform.eulerAngles.x > 0)
-        //    {
-        //        transform.Rotate(-floorXAngle / 8f, 0f, 0f);
-        //    }
-        //}
 
-        //if (Input.GetKey("left"))
-        //{
-        //    if (floorZAngle < 30f)
-        //    {
-        //        transform.Rotate(0f, 0f, 1f);
-        //    }
-        //}
-        //else if (!Input.anyKey)
-        //{
-        //    if (transform.eulerAngles.z > 0)
-        //    {
-        //        transform.Rotate(0, 0f, floorZAngle / -8f);
-        //    }
-        //}
-        //if (Input.GetKey("right"))
-        //{
-        //    if (floorZAngle > -30f)
-        //    {
-        //        transform.Rotate(0f, 0f, -1f);
-        //    }
-        //}
-        //else if (!Input.anyKey)
-        //{
-        //    if (transform.eulerAngles.z > 0)
-        //    {
-        //        transform.Rotate(0f, 0f, -floorZAngle / 8f);
-        //    }
-        //}
+
     }
 }
