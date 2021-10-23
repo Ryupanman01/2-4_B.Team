@@ -9,11 +9,13 @@ public class PlayerController : MonoBehaviour
     public Text ScoreText;  //スコアテキスト
     public Text ClearText;  //クリアテキスト
     public GameObject Item; //アイテム
+    Rigidbody rb;
 
     void Start()
     {
         score = 0;
         ClearText.text = "";
+        rb = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -43,6 +45,7 @@ public class PlayerController : MonoBehaviour
         if(score >= 12)
         {
             //ゲームクリア表示
+            rb.velocity = Vector3.zero;
             ClearText.text = "GAME CLEAR";
         }
     }
