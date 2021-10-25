@@ -22,7 +22,7 @@ public class RotateLimit : MonoBehaviour
 
     [SerializeField]
     [Tooltip("回転するスピード")]
-    private float MinSpeed = 0.3f;
+    private float MinSpeed;
 
 
     // Update is called once per frame
@@ -78,115 +78,117 @@ public class RotateLimit : MonoBehaviour
         //}
 
 
-        //test1
-        //if (Input.GetAxisRaw("Vertical") > 0)
-        //{
-        //    MinSpeed += 0.001f;
-        //    if (floorXAngle < 30f)
-        //    {
-        //        transform.Rotate(MinSpeed, 0f, 0f);
-        //    }
-        //}
-        //else if (Input.GetAxisRaw("Vertical") < 0)
-        //{
-        //    if (floorXAngle > -30f)
-        //    {
-        //        transform.Rotate(++floorXAngle * 1f, 0f, 0f);
-        //    }
-        //}
-        //else
-        //{
-        //    MinSpeed = 0.1f;
-        //    if (floorXAngle > 0 || floorXAngle < 0)
-        //    {
-        //        transform.Rotate(floorXAngle / -18f, 0f, 0f);
-        //    }
-        //}
-
-        //if (Input.GetAxisRaw("Horizontal") < 0)
-        //{
-
-        //    if (floorZAngle < 30f)
-        //    {
-        //        transform.Rotate(0f, 0f, 1f * MinSpeed);
-        //    }
-        //}
-        //else if (Input.GetAxisRaw("Horizontal") > 0)
-        //{
-        //    if (floorZAngle > -30f)
-        //    {
-        //        transform.Rotate(0f, 0f, -1f * MinSpeed);
-        //    }
-        //}
-        //else
-        //{
-        //    if (floorZAngle > 0 || floorZAngle < 0)
-        //    {
-        //        transform.Rotate(0f, 0f, floorZAngle / -8f);
-        //    }
-        //}
-
-
-
-        /********************************************/
-        //test2
-        float speed = 0.6f;
-        //float step;
-
-        step = speed * Time.deltaTime;
-
+        //test1 加速
+        float MinSpeed = 1f;
         if (Input.GetAxisRaw("Vertical") > 0)
         {
-            speed += 1.0f;
+            MinSpeed += 0.001f;
             if (floorXAngle < 30f)
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(40f, 0, 0), step);
+                transform.Rotate(MinSpeed, 0f, 0f);
             }
         }
         else if (Input.GetAxisRaw("Vertical") < 0)
         {
             if (floorXAngle > -30f)
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(-40f, 0, 0), step);
+                transform.Rotate(-MinSpeed, 0f, 0f);
             }
         }
         else
         {
+            MinSpeed = 0.1f;
             if (floorXAngle > 0 || floorXAngle < 0)
             {
-                speed = 0.6f;
-                transform.Rotate(floorXAngle / -10f, 0f, 0f);
+                transform.Rotate(floorXAngle / -18f, 0f, 0f);
             }
         }
 
         if (Input.GetAxisRaw("Horizontal") < 0)
         {
 
-            speed += 1.0f;
             if (floorZAngle < 30f)
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, 40f), step);
+                transform.Rotate(0f, 0f, MinSpeed);
             }
         }
         else if (Input.GetAxisRaw("Horizontal") > 0)
         {
             if (floorZAngle > -30f)
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, -40f), step);
+                transform.Rotate(0f, 0f, -MinSpeed);
             }
         }
         else
         {
             if (floorZAngle > 0 || floorZAngle < 0)
             {
-                speed = 0.6f;
-                transform.Rotate(0f, 0f, floorZAngle / -10f);
+                transform.Rotate(0f, 0f, floorZAngle / -8f);
             }
         }
 
+
+
+        /********************************************/
+        ////test2 slerp
+        //float speed = 0.6f;
+        ////float step;
+
+        //step = speed * Time.deltaTime;
+
+        //if (Input.GetAxisRaw("Vertical") > 0)
+        //{
+        //    speed += 1.0f;
+        //    if (floorXAngle < 30f)
+        //    {
+        //        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(40f, 0, 0), step);
+        //    }
+        //}
+        //else if (Input.GetAxisRaw("Vertical") < 0)
+        //{
+        //    if (floorXAngle > -30f)
+        //    {
+        //        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(-40f, 0, 0), step);
+        //    }
+        //}
+        //else
+        //{
+        //    if (floorXAngle > 0 || floorXAngle < 0)
+        //    {
+        //        speed = 0.6f;
+        //        transform.Rotate(floorXAngle / -10f, 0f, 0f);
+        //    }
+        //}
+
+        //if (Input.GetAxisRaw("Horizontal") < 0)
+        //{
+
+        //    speed += 1.0f;
+        //    if (floorZAngle < 30f)
+        //    {
+        //        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, 40f), step);
+        //    }
+        //}
+        //else if (Input.GetAxisRaw("Horizontal") > 0)
+        //{
+        //    if (floorZAngle > -30f)
+        //    {
+        //        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, -40f), step);
+        //    }
+        //}
+        //else
+        //{
+        //    if (floorZAngle > 0 || floorZAngle < 0)
+        //    {
+        //        speed = 0.6f;
+        //        transform.Rotate(0f, 0f, floorZAngle / -10f);
+        //    }
+        //}
+
         /**************************************/
 
-        ///*****************************************/
+        /*****************************************/
+        //test3
         //if (Input.GetAxisRaw("Vertical") > 0)
         //{
         //    if (floorXAngle < 30f)
