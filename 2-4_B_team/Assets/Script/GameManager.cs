@@ -8,6 +8,12 @@ public class GameManager : MonoBehaviour
 {
     public int pause;
     [SerializeField]GameObject PausePanel;
+
+    [SerializeField]
+    //　ポーズした時に表示するUIのプレハブ
+    private GameObject pauseUIPrefab;
+    //　ポーズUIのインスタンス
+    private GameObject pauseUIInstance;
     /*
     public Text textPause;
     public Text textReStart;
@@ -36,6 +42,7 @@ public class GameManager : MonoBehaviour
             {
                 PausePanel.SetActive(true);
                 pause = 1;
+                Time.timeScale = 0f;
                 /*
                 textPause.enabled = true;
                 textReStart.enabled = true;
@@ -47,6 +54,7 @@ public class GameManager : MonoBehaviour
             {
                 PausePanel.SetActive(false);
                 pause = 0;
+                Time.timeScale = 1f;
                 /*
                 textPause.enabled = false;
                 textReStart.enabled = false;
