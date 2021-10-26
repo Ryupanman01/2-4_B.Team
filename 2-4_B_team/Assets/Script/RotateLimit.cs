@@ -24,6 +24,9 @@ public class RotateLimit : MonoBehaviour
     [Tooltip("回転するスピード")]
     private float MinSpeed;
 
+    [SerializeField]
+    [Tooltip("加速")]
+    float kasoku; //test1
 
     // Update is called once per frame
     void Update()
@@ -48,6 +51,64 @@ public class RotateLimit : MonoBehaviour
             // デフォルトでは角度は0～360なので-180～180となるように補正
             floorXAngle = floorXAngle - 360;
         }
+
+        /**************************************/
+        //test1 加速
+        MinSpeed = 1f;
+
+        if (Input.GetAxis("Vertical") > 0)
+        {
+
+            if (floorXAngle < 30f)
+            {
+                transform.Rotate(vertical, 0f, 0f);
+                //MinSpeed += 0.5f;
+                kasoku = MinSpeed * vertical;
+            }
+
+        }
+        else if (Input.GetAxis("Vertical") < 0)
+        {
+            if (floorXAngle > -30f)
+            {
+                kasoku = -MinSpeed + vertical;
+                transform.Rotate(vertical, 0f, 0f);
+            }
+        }
+        else
+        {
+            MinSpeed = 1f;
+            if (floorXAngle > 0 || floorXAngle < 0)
+            {
+                transform.Rotate(floorXAngle / -18f, 0f, 0f);
+            }
+        }
+
+        if (Input.GetAxis("Horizontal") < 0)
+        {
+
+            if (floorZAngle < 30f)
+            {
+                transform.Rotate(0f, 0f, -horizontal);
+                kasoku = MinSpeed * horizontal;
+            }
+        }
+        else if (Input.GetAxis("Horizontal") > 0)
+        {
+            if (floorZAngle > -30f)
+            {
+                transform.Rotate(0f, 0f, -horizontal);
+                kasoku = -MinSpeed - horizontal;
+            }
+        }
+        else
+        {
+            if (floorZAngle > 0 || floorZAngle < 0)
+            {
+                transform.Rotate(0f, 0f, floorZAngle / -8f);
+            }
+        }
+        /********************************************/
 
         //// (現在の角度が最小角度以上かつキー入力が0未満(左キー押下)) または (現在の角度が最大角度以下かつキー入力が0より大きい(右キー押下))の時
         //if ((floorZAngle >= MinAngle && -horizontal < 0) || (floorZAngle <= MaxAngle && -horizontal > 0))
@@ -78,58 +139,6 @@ public class RotateLimit : MonoBehaviour
         //}
 
 
-        //test1 加速
-        float MinSpeed = 1f;
-        if (Input.GetAxisRaw("Vertical") > 0)
-        {
-            MinSpeed += 0.001f;
-            if (floorXAngle < 30f)
-            {
-                transform.Rotate(MinSpeed, 0f, 0f);
-            }
-        }
-        else if (Input.GetAxisRaw("Vertical") < 0)
-        {
-            if (floorXAngle > -30f)
-            {
-                transform.Rotate(-MinSpeed, 0f, 0f);
-            }
-        }
-        else
-        {
-            MinSpeed = 0.1f;
-            if (floorXAngle > 0 || floorXAngle < 0)
-            {
-                transform.Rotate(floorXAngle / -18f, 0f, 0f);
-            }
-        }
-
-        if (Input.GetAxisRaw("Horizontal") < 0)
-        {
-
-            if (floorZAngle < 30f)
-            {
-                transform.Rotate(0f, 0f, MinSpeed);
-            }
-        }
-        else if (Input.GetAxisRaw("Horizontal") > 0)
-        {
-            if (floorZAngle > -30f)
-            {
-                transform.Rotate(0f, 0f, -MinSpeed);
-            }
-        }
-        else
-        {
-            if (floorZAngle > 0 || floorZAngle < 0)
-            {
-                transform.Rotate(0f, 0f, floorZAngle / -8f);
-            }
-        }
-
-
-
-        /********************************************/
         ////test2 slerp
         //float speed = 0.6f;
         ////float step;
