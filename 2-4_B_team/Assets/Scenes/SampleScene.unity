@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.4366757, g: 0.48427194, b: 0.5645252, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366756, g: 0.48427194, b: 0.5645252, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -463,14 +463,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 462503915}
-  m_LocalRotation: {x: -0.000000007563766, y: 0.8981982, z: -0.43959072, w: -0.00000001545474}
-  m_LocalPosition: {x: 0, y: 2.5, z: 1.01}
+  m_LocalRotation: {x: 0.28978413, y: 0.00000001644865, z: -0.000000004980251, w: 0.95709205}
+  m_LocalPosition: {x: 0, y: 2.5, z: -1.95}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 857381768}
   m_Father: {fileID: 0}
   m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 179.99998, z: 0}
+  m_LocalEulerAnglesHint: {x: -12.466001, y: 0, z: 0}
 --- !u!114 &462503917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -500,7 +500,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.9925, y: 1}
+    m_SensorSize: {x: 1.7777778, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -750,7 +750,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 0.0000008142067, y: 6.323129e-19, z: 6337696, w: NaN}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -954,7 +954,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: -128.94969, z: 1.01}
+  m_FollowOffset: {x: 0, y: -126.63972, z: -1.95}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -1064,13 +1064,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: -0.000000007563766, y: 0.8981982, z: -0.43959072, w: -0.00000001545474}
-  m_LocalPosition: {x: 0, y: 2.5, z: 1.01}
+  m_LocalRotation: {x: 0.28978413, y: 0.00000001644865, z: -0.000000004980251, w: 0.95709205}
+  m_LocalPosition: {x: 0, y: 2.5, z: -1.95}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 127.843994, y: -0.000015258789, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1439,6 +1439,7 @@ MonoBehaviour:
   step: 0
   speed: 0
   MinSpeed: 0.3
+  kasoku: 0
 --- !u!1 &1626114493
 GameObject:
   m_ObjectHideFlags: 0
