@@ -6,10 +6,12 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     private int score;   //スコア
+    private Vector3 lastvelocity;
+    private Rigidbody rb;
+
     public Text ScoreText;  //スコアテキスト
     public Text ClearText;  //クリアテキスト
     public GameObject Item; //アイテム
-    Rigidbody rb;
 
     void Start()
     {
@@ -21,6 +23,11 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         SetCountText();
+    }
+
+    void FixedUpdate()
+    {
+        lastvelocity = rb.velocity;
     }
 
     void OnCollisionEnter(Collision collision)
@@ -35,6 +42,13 @@ public class PlayerController : MonoBehaviour
             //ログ表示
             Debug.Log("当たった");
         }
+        //衝突した相手にWallタグが付いているとき
+        if (collision.gameObject.tag == "Wall")
+        {
+            //反射する
+            Vector3 refrectVec = Vector3.Reflect(lastvelocity, collision.contacts[0].normal);
+            rb.velocity = refrectVec;
+        }
     }
 
     void SetCountText()
@@ -44,8 +58,7 @@ public class PlayerController : MonoBehaviour
         //すべての収集アイテムを獲得した場合
         if(score >= 12)
         {
-            //ゲームクリア表示
-            rb.velocity = Vector3.zero;
+            Time.timeScale = 0f;
             ClearText.text = "GAME CLEAR";
         }
     }

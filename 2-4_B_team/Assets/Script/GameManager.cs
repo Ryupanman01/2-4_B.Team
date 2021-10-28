@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
 public class GameManager : MonoBehaviour
 {
     public int pause;
+    public int MenuSelect = 0;
     [SerializeField]GameObject PausePanel;
 
     [SerializeField]
@@ -33,36 +35,35 @@ public class GameManager : MonoBehaviour
         pause = 0;
     }
 
+    /*
+    IEnumerator ReStart()
+    {
+        //　3秒後にリスタート
+        yield return new WaitForSeconds(3f);
+        //　現在のシーンを再読み込み
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    */
 
     void Update()
     {
-        if (Input.GetKeyDown("joystick button 7"))
+        if (Input.GetKeyDown("joystick button 9"))
         {
             if (pause==0)
             {
                 PausePanel.SetActive(true);
                 pause = 1;
+
                 Time.timeScale = 0f;
-                /*
-                textPause.enabled = true;
-                textReStart.enabled = true;
-                textTitleBack.enabled = true;
-                textGameEnd.enabled = true;
-                */
+                
             }
             else
             {
                 PausePanel.SetActive(false);
                 pause = 0;
                 Time.timeScale = 1f;
-                /*
-                textPause.enabled = false;
-                textReStart.enabled = false;
-                textTitleBack.enabled = false;
-                textGameEnd.enabled = false;
-                */
             }
         }
     }
 }
-    
+
