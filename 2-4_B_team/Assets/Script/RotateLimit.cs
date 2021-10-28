@@ -22,11 +22,13 @@ public class RotateLimit : MonoBehaviour
 
     [SerializeField]
     [Tooltip("回転するスピード")]
-    private float MinSpeed = 0.3f;
+    private float MinSpeed;
 
+    [SerializeField]
+    [Tooltip("加速")]
+    float kasoku; //test1
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         // 左右キーの入力を取得
         float horizontal = Input.GetAxis("Horizontal");
@@ -35,7 +37,7 @@ public class RotateLimit : MonoBehaviour
         // 現在のGameObjectのY軸方向の角度を取得
         float floorZAngle = transform.eulerAngles.z;
         float floorXAngle = transform.eulerAngles.x;
-
+        
 
         // 現在の角度が180より大きい場合
         if (floorZAngle > 180)
@@ -48,6 +50,132 @@ public class RotateLimit : MonoBehaviour
             // デフォルトでは角度は0～360なので-180～180となるように補正
             floorXAngle = floorXAngle - 360;
         }
+
+        /*****************************************/
+        //test2 slerp
+        float speed = 0.6f;               //傾きのスピード
+        //float step;
+        Vector3 dir = Vector3.zero;
+
+
+        dir.x = -Input.acceleration.x;
+        dir.z = Input.acceleration.z;
+
+        dir *= Time.deltaTime;
+
+        step = speed * Time.deltaTime;
+
+        if (Input.GetAxis("Vertical") > 0)  //上入力
+        {
+            speed += 1.0f;                  //スピード＋１
+            if (floorXAngle < 30f)          //30度まで傾く
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(40f * vertical, 0, 0), step);//加速し減速
+            }
+        }
+        else if (Input.GetAxis("Vertical") < 0) //下入力
+        {
+            if (floorXAngle > -30f)             //30度まで傾く
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(-40f * -vertical, 0, 0), step);//加速し減速
+            }
+        }
+        else
+        {
+            if (floorXAngle > 0 || floorXAngle < 0)     //入力がないかつ傾いているとき
+            {
+                speed = 0.6f;                             //スピードを1に戻す
+                transform.Rotate(floorXAngle / -30f, 0f, 0f);   //減速しながら傾きを0度にする
+                //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(floorXAngle / 8f, 0, 0), step);
+            }
+        }
+
+        if (Input.GetAxis("Horizontal") < 0)
+        {
+
+            speed += 1.0f;
+            if (floorZAngle < 30f)
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, 40f * -horizontal), step);
+            }
+        }
+        else if (Input.GetAxis("Horizontal") > 0)
+        {
+            if (floorZAngle > -30f)
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, -40f * horizontal), step);
+            }
+        }
+        else
+        {
+            if (floorZAngle > 0 || floorZAngle < 0)
+            {
+                speed = 0.6f;
+                transform.Rotate(0f, 0f, floorZAngle / -30f);
+            }
+        }
+
+        ///**************************************/
+
+
+        /**************************************/
+        ////test1 加速
+        //MinSpeed = 0.1f;
+
+        //if (Input.GetAxis("Vertical") > 0)
+        //{
+
+        //    if (floorXAngle < 30f)
+        //    {
+        //        transform.Rotate(vertical, 0f, 0f);
+        //        kasoku = MinSpeed + vertical;
+        //    }
+
+        //}
+        //else if (Input.GetAxis("Vertical") < 0)
+        //{
+        //    if (floorXAngle > -30f)
+        //    {
+        //        kasoku = -MinSpeed + vertical;
+        //        transform.Rotate(vertical, 0f, 0f);
+        //    }
+        //}
+        //else
+        //{
+        //    MinSpeed = 0.1f;
+        //    if (floorXAngle > 0 || floorXAngle < 0)
+        //    {
+        //        transform.Rotate(floorXAngle / -18f, 0f, 0f);
+        //    }
+        //}
+
+        //if (Input.GetAxis("Horizontal") < 0)
+        //{
+
+        //    if (floorZAngle < 30f)
+        //    {
+        //        transform.Rotate(0f, 0f, -horizontal);
+        //        kasoku = MinSpeed * horizontal;
+        //    }
+        //}
+        //else if (Input.GetAxis("Horizontal") > 0)
+        //{
+        //    if (floorZAngle > -30f)
+        //    {
+        //        transform.Rotate(0f, 0f, -horizontal);
+        //        kasoku = -MinSpeed - horizontal;
+        //    }
+        //}
+        //else
+        //{
+        //    if (floorZAngle > 0 || floorZAngle < 0)
+        //    {
+        //        transform.Rotate(0f, 0f, floorZAngle / -8f);
+        //    }
+        //}
+        /********************************************/
+
+
 
         //// (現在の角度が最小角度以上かつキー入力が0未満(左キー押下)) または (現在の角度が最大角度以下かつキー入力が0より大きい(右キー押下))の時
         //if ((floorZAngle >= MinAngle && -horizontal < 0) || (floorZAngle <= MaxAngle && -horizontal > 0))
@@ -78,115 +206,9 @@ public class RotateLimit : MonoBehaviour
         //}
 
 
-        //test1
-        //if (Input.GetAxisRaw("Vertical") > 0)
-        //{
-        //    MinSpeed += 0.001f;
-        //    if (floorXAngle < 30f)
-        //    {
-        //        transform.Rotate(MinSpeed, 0f, 0f);
-        //    }
-        //}
-        //else if (Input.GetAxisRaw("Vertical") < 0)
-        //{
-        //    if (floorXAngle > -30f)
-        //    {
-        //        transform.Rotate(++floorXAngle * 1f, 0f, 0f);
-        //    }
-        //}
-        //else
-        //{
-        //    MinSpeed = 0.1f;
-        //    if (floorXAngle > 0 || floorXAngle < 0)
-        //    {
-        //        transform.Rotate(floorXAngle / -18f, 0f, 0f);
-        //    }
-        //}
 
-        //if (Input.GetAxisRaw("Horizontal") < 0)
-        //{
-
-        //    if (floorZAngle < 30f)
-        //    {
-        //        transform.Rotate(0f, 0f, 1f * MinSpeed);
-        //    }
-        //}
-        //else if (Input.GetAxisRaw("Horizontal") > 0)
-        //{
-        //    if (floorZAngle > -30f)
-        //    {
-        //        transform.Rotate(0f, 0f, -1f * MinSpeed);
-        //    }
-        //}
-        //else
-        //{
-        //    if (floorZAngle > 0 || floorZAngle < 0)
-        //    {
-        //        transform.Rotate(0f, 0f, floorZAngle / -8f);
-        //    }
-        //}
-
-
-
-        /********************************************/
-        //test2
-        float speed = 0.6f;
-        //float step;
-
-        step = speed * Time.deltaTime;
-
-        if (Input.GetAxisRaw("Vertical") > 0)
-        {
-            speed += 1.0f;
-            if (floorXAngle < 30f)
-            {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(40f, 0, 0), step);
-            }
-        }
-        else if (Input.GetAxisRaw("Vertical") < 0)
-        {
-            if (floorXAngle > -30f)
-            {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(-40f, 0, 0), step);
-            }
-        }
-        else
-        {
-            if (floorXAngle > 0 || floorXAngle < 0)
-            {
-                speed = 0.6f;
-                transform.Rotate(floorXAngle / -10f, 0f, 0f);
-            }
-        }
-
-        if (Input.GetAxisRaw("Horizontal") < 0)
-        {
-
-            speed += 1.0f;
-            if (floorZAngle < 30f)
-            {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, 40f), step);
-            }
-        }
-        else if (Input.GetAxisRaw("Horizontal") > 0)
-        {
-            if (floorZAngle > -30f)
-            {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, -40f), step);
-            }
-        }
-        else
-        {
-            if (floorZAngle > 0 || floorZAngle < 0)
-            {
-                speed = 0.6f;
-                transform.Rotate(0f, 0f, floorZAngle / -10f);
-            }
-        }
-
-        /**************************************/
-
-        ///*****************************************/
+        /*****************************************/
+        //test3
         //if (Input.GetAxisRaw("Vertical") > 0)
         //{
         //    if (floorXAngle < 30f)
