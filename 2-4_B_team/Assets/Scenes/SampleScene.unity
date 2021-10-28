@@ -2018,6 +2018,18 @@ MonoBehaviour:
   speed: 0
   MinSpeed: 0.1
   kasoku: 0
+--- !u!114 &1604721060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1604721058}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b373ff24dafe6b44938d576df7530cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1626114493
 GameObject:
   m_ObjectHideFlags: 0
