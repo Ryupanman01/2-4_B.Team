@@ -50,9 +50,17 @@ public class CousorSet : MonoBehaviour
         }
         else if(Pos == 3)
         {
-            UnityEditor.EditorApplication.isPlaying = false;
+            Quit();
         }
 
+        void Quit()
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#elif UNITY_STANDALONE
+      UnityEngine.Application.Quit();
+#endif
+        }
 
     }
 }
